@@ -1,0 +1,45 @@
+#cloud-config
+password: passw0rd
+chpasswd: { expire: False }
+ssh_pwauth: True
+apt_proxy: http://proxy.iiit.ac.in:8080
+apt_mirror: http://us.archive.ubuntu.com/ubuntu/
+apt_mirror_search: 
+ - http://local-mirror.mydomain
+ - http://archive.ubuntu.com
+apt_mirror_search_dns: False
+packages:
+ - svn
+ - git
+ - vinagre
+ - zsh
+groups:
+ - cloud-users
+users:
+  - default
+  - name: user
+    gecos: cloud-user
+    primary-group: cloud-users
+    groups: users
+    lock-passwd: false
+    password: ******
+  - name: admin
+    gecos: admin-user
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    ssh-import-id: None
+    lock-passwd: true
+    ssh-authorized-keys:
+      - ******
+timezone: Asia/Kolkata
+byobu_by_default: system
+ssh_authorized_keys:
+ - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcnzJCvMfZW4pWOtNU2HqokJkgI4I8SksTQLfovuGO3jWoNpw0YPuUhiFeIOat0pQZ3QVjJnacRFDjVN+e0twxyOR56wklSQ067jlUbvyCC5az7+pJdHq2Ni6NK/qjb>
+ - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJOgORaZ0/Re8bmPMpTZFFXlTUtA6MgZI9dByL8y3S5md7P6iyHJsrXHcvQ4I9s5y+Eu2JJISaJ6skSUnTt0ofKTuiLOVs7c+v1Yty5dUC7kjTZZBAYTRMX2NPW2Jied8LgCKCoe4QfqhR0PpXvG5Q56KNByXBjglaQpI222CWzmUNXHjSQJplAmuqedoXohtqLbtBRKNMzGi0jCDhYvQ3SnG+r+bglRZtm2HgKHSsRmGM49UTCzl7ycgEFUAIDgF3l+Cj6cMeM/oZo0b8HmQPBliLUbz+Hc0TxseltNoWhRY/x1Bizzzl1ImHMEcHOR5Uss/AEqLje4qp9o2ufKxF hellboy2k8@hellboy2k8-earth
+disable_root: True
+ssh_deletekeys: True
+sh_genkeytypes: ['rsa']
+runcmd:
+ - [ ls, -l, / ]
+ - [ sh, -xc, "echo $(date) ': Welcome to SIEL'" ]
+
